@@ -1,0 +1,55 @@
+{
+  "name": "is-progressive",
+  "version": "0.0.0",
+  "description": "Check if a JPEG image is progressive",
+  "license": "MIT",
+  "repository": "sindresorhus/is-progressive",
+  "author": {
+    "name": "Sindre Sorhus",
+    "email": "sindresorhus@gmail.com",
+    "url": "http://sindresorhus.com"
+  },
+  "bin": {
+    "is-progressive": "cli.js"
+  },
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "scripts": {
+    "test": "node test.js"
+  },
+  "files": [
+    "index.js",
+    "cli.js"
+  ],
+  "keywords": [
+    "cli-app",
+    "cli",
+    "bin",
+    "jpg",
+    "jpeg",
+    "progressive",
+    "file",
+    "image",
+    "img",
+    "pic",
+    "picture",
+    "photo",
+    "detect",
+    "check",
+    "is",
+    "exif",
+    "buffer",
+    "stream",
+    "fs"
+  ],
+  "dependencies": {
+    "log-symbols": "^1.0.1",
+    "meow": "^2.0.0",
+    "read-chunk": "^1.0.0",
+    "through2": "^0.6.3"
+  },
+  "devDependencies": {
+    "ava": "0.0.4"
+  }
+}
