@@ -6,100 +6,7 @@ Can be useful to make sure your images are progressive, which is important for p
 
 > Progressive JPEGs are better because they are faster. Appearing faster is being faster, and perceived speed is more important that actual speed. - [Progressive JPEGs: a new best practice](http://calendar.perfplanet.com/2012/progressive-jpegs-a-new-best-practice/)
 
-
-## Install
-
-```
-$ npm install --save is-progressive
-```
-
-
-## Usage
-
-```js
-var isProgressive = require('is-progressive');
-
-isProgressive.fileSync('baseline.jpg');
-//=> false
-
-isProgressive.fileSync('progressive.jpg');
-//=> true
-```
-
-```js
-// check if a remote JPEG image is progressive
-// without downloading the whole file
-var https = require('https');
-var isProgressive = require('is-progressive');
-var url = 'https://raw.githubusercontent.com/sindresorhus/is-progressive/master/fixture/progressive.jpg';
-
-var req = https.get(url, function (res) {
-	res.pipe(isProgressive.stream(function (progressive) {
-		req.end();
-		console.log(progressive);
-		//=> true
-	}));
-});
-```
-
-
-## API
-
-Prefer the file methods if you're dealing directly files as those methods are optimized to read in the least amount of bytes nessecary to determine whether it's a progressive JPEG image.
-
-### .buffer(buffer)
-
-Returns whether the buffer is a progressive JPEG image.
-
-#### buffer
-
-*Required*  
-Type: `buffer`
-
-Buffer of a JPEG image.
-
-Must be at least `65535` bytes when the file is larger than that.
-
-### .stream(callback)
-
-#### callback(progressive)
-
-*Required*  
-Type: `function`
-
-##### progressive
-
-Type: `boolean`
-
-Whether the buffer is a progressive JPEG image.
-
-### .file(filepath, callback)
-
-#### filepath
-
-*Required*  
-Type: `string`
-
-Filepath to the image.
-
-#### callback(error, progressive)
-
-##### progressive
-
-Type: `boolean`
-
-Whether the buffer is a progressive JPEG.
-
-### .fileSync(filepath)
-
-Returns whether the buffer is a progressive JPEG.
-
-#### filepath
-
-*Required*  
-Type: `string`
-
-Filepath to the image.
+The check is fast as it only reads a small part of the file.
 
 
 ## CLI
@@ -135,6 +42,98 @@ baseline.jpg
 progressive.jpg
 ✔ Progressive
 ```
+
+
+## Module
+
+```
+$ npm install --save is-progressive
+```
+
+```js
+var isProgressive = require('is-progressive');
+
+isProgressive.fileSync('baseline.jpg');
+//=> false
+
+isProgressive.fileSync('progressive.jpg');
+//=> true
+```
+
+```js
+// check if a remote JPEG image is progressive
+// without downloading the whole file
+var https = require('https');
+var isProgressive = require('is-progressive');
+var url = 'https://raw.githubusercontent.com/sindresorhus/is-progressive/master/fixture/progressive.jpg';
+
+var req = https.get(url, function (res) {
+	res.pipe(isProgressive.stream(function (progressive) {
+		req.end();
+		console.log(progressive);
+		//=> true
+	}));
+});
+```
+
+
+### API
+
+Prefer the file methods if you're dealing directly files as those methods are optimized to read in the least amount of bytes nessecary to determine whether it's a progressive JPEG image.
+
+#### .buffer(buffer)
+
+Returns whether the buffer is a progressive JPEG image.
+
+##### buffer
+
+*Required*  
+Type: `buffer`
+
+Buffer of a JPEG image.
+
+Must be at least `65535` bytes when the file is larger than that.
+
+#### .stream(callback)
+
+##### callback(progressive)
+
+*Required*  
+Type: `function`
+
+###### progressive
+
+Type: `boolean`
+
+Whether the buffer is a progressive JPEG image.
+
+#### .file(filepath, callback)
+
+##### filepath
+
+*Required*  
+Type: `string`
+
+Filepath to the image.
+
+##### callback(error, progressive)
+
+###### progressive
+
+Type: `boolean`
+
+Whether the buffer is a progressive JPEG.
+
+#### .fileSync(filepath)
+
+Returns whether the buffer is a progressive JPEG.
+
+##### filepath
+
+*Required*  
+Type: `string`
+
+Filepath to the image.
 
 
 ## License
