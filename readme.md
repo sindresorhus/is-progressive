@@ -136,6 +136,11 @@ Type: `string`
 Filepath to the image.
 
 
+## Related
+
+Use [`imagemin`](https://github.com/imagemin/imagemin) *([gulp](https://github.com/sindresorhus/gulp-imagemin)/[grunt](https://github.com/gruntjs/grunt-contrib-imagemin)-task)* with `progressive: true` to make your JPEG images progressive.
+
+
 ## License
 
 MIT © [Sindre Sorhus](http://sindresorhus.com)
