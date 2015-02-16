@@ -45,7 +45,7 @@
   ],
   "dependencies": {
     "log-symbols": "^1.0.1",
-    "meow": "^2.0.0",
+    "meow": "^3.0.0",
     "read-chunk": "^1.0.0",
     "through2": "^0.6.3"
   },
