@@ -13,7 +13,7 @@ var cli = meow({
 		'Example',
 		'  is-progressive < unicorn.png',
 		'  ✔ Progressive'
-	].join('\n')
+	]
 });
 
 function init(p) {
