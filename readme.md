@@ -31,16 +31,12 @@ $ is-progressive --help
 
 ### Multiple files
 
-Just use some simple shell scripting:
+```
+$ is-progressive fixture/*.jpg
 
-```sh
-$ for f in *.jpg; do echo "$f"; is-progressive $f; echo; done
+fixture/baseline.jpg: ✖ Baseline
+fixture/progressive.jpg: ✔ Progressive
 
-baseline.jpg
-✖ Baseline
-
-progressive.jpg
-✔ Progressive
 ```
 
 
