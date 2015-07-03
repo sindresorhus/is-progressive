@@ -11,7 +11,7 @@ The check is fast as it only reads a small part of the file.
 
 ## CLI
 
-<img src="screenshot.png" width="330">
+<img src="screenshot.png" width="641">
 
 ```
 $ npm install --global is-progressive
