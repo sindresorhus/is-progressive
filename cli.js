@@ -6,7 +6,7 @@ var isProgressive = require('./');
 
 var cli = meow({
 	help: [
-	'Usage',
+		'Usage',
 		'  is-progressive <filename>',
 		'  is-progressive < <filename>',
 		'',
@@ -22,7 +22,7 @@ function init(p) {
 }
 
 function initArray(filename, p) {
-	console.log(filename + ': ' + (p ? logSymbols.success + ' Progressive' : logSymbols.error + ' Baseline'));
+	console.log((p ? logSymbols.success: logSymbols.error) + ' : ' + filename);
 }
 
 if (process.stdin.isTTY) {
@@ -34,9 +34,9 @@ if (process.stdin.isTTY) {
 	if (cli.input.length == 1) {
 		init(isProgressive.fileSync(cli.input[0]));
 	} else {
-		for (var i in cli.input) {
-			initArray(cli.input[i], isProgressive.fileSync(cli.input[i]));
-		}
+		cli.input.forEach(function(element, index, array){
+			initArray(cli.input[index], isProgressive.fileSync(cli.input[index]));
+		});
 	}
 } else {
 	process.stdin.pipe(isProgressive.stream(init));
