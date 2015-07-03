@@ -34,8 +34,8 @@ $ is-progressive --help
 ```
 $ is-progressive fixture/*.jpg
 
-fixture/baseline.jpg: ✖ Baseline
-fixture/progressive.jpg: ✔ Progressive
+✖ : fixture/baseline.jpg
+✔ : fixture/progressive.jpg
 
 ```
 
