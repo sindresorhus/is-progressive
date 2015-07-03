@@ -1,7 +1,7 @@
 {
   "name": "is-progressive",
   "version": "1.0.1",
-  "description": "Check if a JPEG image is progressive",
+  "description": "Check if a JPEG images are progressive",
   "license": "MIT",
   "repository": "sindresorhus/is-progressive",
   "author": {
@@ -23,7 +23,6 @@
   "keywords": [
     "cli-app",
     "cli",
-    "bin",
     "jpg",
     "jpeg",
     "progressive",
@@ -42,10 +41,11 @@
     "fs"
   ],
   "dependencies": {
+    "arrify": "^1.0.0",
     "log-symbols": "^1.0.1",
     "meow": "^3.3.0",
     "read-chunk": "^1.0.0",
-    "through2": "^0.6.3"
+    "through2": "^2.0.0"
   },
   "devDependencies": {
     "ava": "0.0.4"

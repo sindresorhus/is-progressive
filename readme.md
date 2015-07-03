@@ -1,6 +1,6 @@
 # is-progressive [![Build Status](https://travis-ci.org/sindresorhus/is-progressive.svg?branch=master)](https://travis-ci.org/sindresorhus/is-progressive)
 
-> Check if a JPEG image is [progressive](http://www.faqs.org/faqs/jpeg-faq/part1/section-11.html)
+> Check if a JPEG images are [progressive](http://www.faqs.org/faqs/jpeg-faq/part1/section-11.html)
 
 Can be useful to make sure your images are progressive, which is important for performance:
 
@@ -13,7 +13,7 @@ The check is fast as it only reads a small part of the file.
 
 <img src="screenshot.png" width="330">
 
-```sh
+```
 $ npm install --global is-progressive
 ```
 
@@ -21,22 +21,21 @@ $ npm install --global is-progressive
 $ is-progressive --help
 
   Usage
-    is-progressive <filename>
-    is-progressive < <filename>
+    $ is-progressive <file> ...
+    $ is-progressive < <file>
 
   Example
-    is-progressive < unicorn.png
-    ✔ Progressive
+    $ is-progressive baseline.jpg progressive.jpg
+    ✖ baseline.jpg
+    ✔ progressive.jpg
 ```
 
-### Multiple files
+##### Globbing
+
+You can use globs too, if your shell supports that.
 
 ```
-$ is-progressive fixture/*.jpg
-
-✖ : fixture/baseline.jpg
-✔ : fixture/progressive.jpg
-
+$ is-progressive *.jpg
 ```
 
 
@@ -75,7 +74,7 @@ var req = https.get(url, function (res) {
 
 ### API
 
-Prefer the file methods if you're dealing directly files as those methods are optimized to read in the least amount of bytes nessecary to determine whether it's a progressive JPEG image.
+Prefer the file methods if you're dealing directly files as those methods are optimized to read in the least amount of bytes necessary to determine whether it's a progressive JPEG image.
 
 #### .buffer(buffer)
 
