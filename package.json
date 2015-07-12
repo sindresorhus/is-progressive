@@ -1,6 +1,6 @@
 {
   "name": "is-progressive",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Check if a JPEG images are progressive",
   "license": "MIT",
   "repository": "sindresorhus/is-progressive",
