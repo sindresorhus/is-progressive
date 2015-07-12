@@ -4,15 +4,10 @@ var readChunk = require('read-chunk');
 var through = require('through2');
 
 // http://en.wikipedia.org/wiki/JPEG
-// SOI  [0xFF, 0xD8] = Start Of Image
-// SOF0 [0xFF, 0xC0] = Start Of Frame (Baseline DCT)
 // SOF2 [0xFF, 0xC2] = Start Of Frame (Progressive DCT)
-// SOS  [0xFF, 0xDA] = Start Of Scan
-var SOF0 = 0xc0;
 var SOF2 = 0xc2;
-var SOS = 0xda;
 
-function search(buf, reportEnd) {
+function search(buf) {
 	var currByte;
 	var prevByte;
 
@@ -49,11 +44,6 @@ exports.stream = function (cb) {
 		prevLastByte = new Buffer(data[data.length - 1]);
 
 		var res = exports.buffer(Buffer.concat([prevLastByte, data]), true);
-
-		if (res === 2) {
-			searchDone = true;
-			cb(false);
-		}
 
 		if (res === true) {
 			searchDone = true;
