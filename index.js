@@ -24,15 +24,6 @@ function search(buf, reportEnd) {
 			continue;
 		}
 
-		if (currByte === SOF0 || currByte === SOS) {
-			// special case for the stream use-case of needing to know when it's done
-			if (reportEnd) {
-				return 2;
-			}
-
-			return false;
-		}
-
 		if (currByte === SOF2) {
 			return true;
 		}
@@ -107,10 +98,6 @@ exports.fileSync = function (filepath) {
 		currByte = buf[0];
 
 		if (prevByte === 0xff) {
-			if (currByte === SOF0 || currByte === SOS) {
-				break;
-			}
-
 			if (currByte === SOF2) {
 				isProgressive = true;
 				break;
