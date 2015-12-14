@@ -1,6 +1,6 @@
 # is-progressive [![Build Status](https://travis-ci.org/sindresorhus/is-progressive.svg?branch=master)](https://travis-ci.org/sindresorhus/is-progressive)
 
-> Check if a JPEG images are [progressive](http://www.faqs.org/faqs/jpeg-faq/part1/section-11.html)
+> Check if a list of JPEG images are [progressive](http://www.faqs.org/faqs/jpeg-faq/part1/section-11.html)
 
 Can be useful to make sure your images are progressive, which is important for performance:
 
