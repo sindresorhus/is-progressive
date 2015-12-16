@@ -1,59 +1,66 @@
-'use strict';
-var fs = require('fs');
-var path = require('path');
-var test = require('ava');
-var readChunk = require('read-chunk');
-var isProgressive = require('./');
+import fs from 'fs';
+import path from 'path';
+import test from 'ava';
+import readChunk from 'read-chunk';
+import fn from './';
 
 function getPath(name) {
-	return path.join(__dirname, 'fixture', name + '.jpg');
+	return path.join(__dirname, 'fixture', `${name}.jpg`);
 }
 
-test('.buffer()', function (t) {
-	t.assert(isProgressive.buffer(readChunk.sync(getPath('progressive'), 0, 65535)));
-	t.assert(isProgressive.buffer(readChunk.sync(getPath('curious-exif'), 0, 65535)));
-	t.assert(!isProgressive.buffer(readChunk.sync(getPath('baseline'), 0, 65535)));
-	t.end();
+test('.buffer()', t => {
+	t.assert(fn.buffer(readChunk.sync(getPath('progressive'), 0, 65535)));
+	t.assert(fn.buffer(readChunk.sync(getPath('curious-exif'), 0, 65535)));
+	t.assert(!fn.buffer(readChunk.sync(getPath('baseline'), 0, 65535)));
 });
 
-test('.stream()', function (t) {
-	t.plan(3);
-
-	fs.createReadStream(getPath('progressive')).pipe(isProgressive.stream(function (progressive) {
-		t.assert(progressive);
-	}));
-
-	fs.createReadStream(getPath('curious-exif')).pipe(isProgressive.stream(function (progressive) {
-		t.assert(progressive);
-	}));
-
-	fs.createReadStream(getPath('baseline')).pipe(isProgressive.stream(function (progressive) {
-		t.assert(!progressive);
+test.cb('.stream() - progressive', t => {
+	fs.createReadStream(getPath('progressive')).pipe(fn.stream(progressive => {
+		t.true(progressive);
+		t.end();
 	}));
 });
 
-test('.file()', function (t) {
-	t.plan(6);
+test.cb('.stream() - curious-exif', t => {
+	fs.createReadStream(getPath('curious-exif')).pipe(fn.stream(progressive => {
+		t.true(progressive);
+		t.end();
+	}));
+});
 
-	isProgressive.file(getPath('progressive'), function (err, progressive) {
-		t.assert(!err, err);
-		t.assert(progressive);
-	});
+test.cb('.stream() - baseline', t => {
+	fs.createReadStream(getPath('baseline')).pipe(fn.stream(progressive => {
+		t.false(progressive);
+		t.end();
+	}));
+});
 
-	isProgressive.file(getPath('curious-exif'), function (err, progressive) {
-		t.assert(!err, err);
-		t.assert(progressive);
-	});
-
-	isProgressive.file(getPath('baseline'), function (err, progressive) {
-		t.assert(!err, err);
-		t.assert(!progressive);
+test.cb('.file() - progressive', t => {
+	fn.file(getPath('progressive'), (err, progressive) => {
+		t.ifError(err);
+		t.true(progressive);
+		t.end();
 	});
 });
 
-test('.fileSync', function (t) {
-	t.assert(isProgressive.fileSync(getPath('progressive')));
-	t.assert(isProgressive.fileSync(getPath('curious-exif')));
-	t.assert(!isProgressive.fileSync(getPath('baseline')));
-	t.end();
+test.cb('.file() - curious-exif', t => {
+	fn.file(getPath('curious-exif'), (err, progressive) => {
+		t.ifError(err);
+		t.true(progressive);
+		t.end();
+	});
+});
+
+test.cb('.file() - baseline', t => {
+	fn.file(getPath('baseline'), (err, progressive) => {
+		t.ifError(err);
+		t.false(progressive);
+		t.end();
+	});
+});
+
+test('.fileSync()', t => {
+	t.true(fn.fileSync(getPath('progressive')));
+	t.true(fn.fileSync(getPath('curious-exif')));
+	t.true(!fn.fileSync(getPath('baseline')));
 });

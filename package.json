@@ -1,7 +1,7 @@
 {
   "name": "is-progressive",
   "version": "2.0.1",
-  "description": "Check if a JPEG images are progressive",
+  "description": "Check if JPEG images are progressive",
   "license": "MIT",
   "repository": "sindresorhus/is-progressive",
   "author": {
@@ -14,7 +14,7 @@
     "node": ">=0.10.0"
   },
   "scripts": {
-    "test": "node test.js"
+    "test": "xo && ava"
   },
   "files": [
     "index.js",
@@ -43,11 +43,12 @@
   "dependencies": {
     "arrify": "^1.0.0",
     "log-symbols": "^1.0.1",
-    "meow": "^3.3.0",
+    "meow": "^3.6.0",
     "read-chunk": "^1.0.0",
     "through2": "^2.0.0"
   },
   "devDependencies": {
-    "ava": "0.0.4"
+    "ava": "*",
+    "xo": "*"
   }
 }

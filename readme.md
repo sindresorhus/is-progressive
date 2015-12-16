@@ -1,6 +1,6 @@
 # is-progressive [![Build Status](https://travis-ci.org/sindresorhus/is-progressive.svg?branch=master)](https://travis-ci.org/sindresorhus/is-progressive)
 
-> Check if a JPEG images are [progressive](http://www.faqs.org/faqs/jpeg-faq/part1/section-11.html)
+> Check if JPEG images are [progressive](http://www.faqs.org/faqs/jpeg-faq/part1/section-11.html)
 
 Can be useful to make sure your images are progressive, which is important for performance:
 
@@ -46,7 +46,7 @@ $ npm install --save is-progressive
 ```
 
 ```js
-var isProgressive = require('is-progressive');
+const isProgressive = require('is-progressive');
 
 isProgressive.fileSync('baseline.jpg');
 //=> false
@@ -58,12 +58,12 @@ isProgressive.fileSync('progressive.jpg');
 ```js
 // check if a remote JPEG image is progressive
 // without downloading the whole file
-var https = require('https');
-var isProgressive = require('is-progressive');
-var url = 'https://raw.githubusercontent.com/sindresorhus/is-progressive/master/fixture/progressive.jpg';
+const https = require('https');
+const isProgressive = require('is-progressive');
+const url = 'https://raw.githubusercontent.com/sindresorhus/is-progressive/master/fixture/progressive.jpg';
 
-var req = https.get(url, function (res) {
-	res.pipe(isProgressive.stream(function (progressive) {
+const req = https.get(url, res => {
+	res.pipe(isProgressive.stream(progressive => {
 		req.end();
 		console.log(progressive);
 		//=> true
@@ -82,7 +82,6 @@ Returns whether the buffer is a progressive JPEG image.
 
 ##### buffer
 
-*Required*  
 Type: `buffer`
 
 Buffer of a JPEG image.
@@ -93,7 +92,6 @@ Must be at least `65535` bytes when the file is larger than that.
 
 ##### callback(progressive)
 
-*Required*  
 Type: `function`
 
 ###### progressive
@@ -106,7 +104,6 @@ Whether the buffer is a progressive JPEG image.
 
 ##### filepath
 
-*Required*  
 Type: `string`
 
 Filepath to the image.
@@ -125,7 +122,6 @@ Returns whether the buffer is a progressive JPEG.
 
 ##### filepath
 
-*Required*  
 Type: `string`
 
 Filepath to the image.

@@ -6,18 +6,16 @@ var logSymbols = require('log-symbols');
 var arrify = require('arrify');
 var isProgressive = require('./');
 
-var cli = meow({
-	help: [
-		'Usage',
-		'  $ is-progressive <file> ...',
-		'  $ is-progressive < <file>',
-		'',
-		'Example',
-		'  $ is-progressive baseline.jpg progressive.jpg',
-		'  ✖ baseline.jpg',
-		'  ✔ progressive.jpg'
-	]
-});
+var cli = meow([
+	'Usage',
+	'  $ is-progressive <file> ...',
+	'  $ is-progressive < <file>',
+	'',
+	'Example',
+	'  $ is-progressive baseline.jpg progressive.jpg',
+	'  ✖ baseline.jpg',
+	'  ✔ progressive.jpg'
+]);
 
 function init(input) {
 	var exitCode = 0;
