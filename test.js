@@ -2,65 +2,30 @@ import fs from 'fs';
 import path from 'path';
 import test from 'ava';
 import readChunk from 'read-chunk';
-import fn from './';
+import m from './';
 
-function getPath(name) {
-	return path.join(__dirname, 'fixture', `${name}.jpg`);
-}
+const getPath = name => path.join(__dirname, 'fixture', `${name}.jpg`);
 
 test('.buffer()', t => {
-	t.assert(fn.buffer(readChunk.sync(getPath('progressive'), 0, 65535)));
-	t.assert(fn.buffer(readChunk.sync(getPath('curious-exif'), 0, 65535)));
-	t.assert(!fn.buffer(readChunk.sync(getPath('baseline'), 0, 65535)));
+	t.true(m.buffer(readChunk.sync(getPath('progressive'), 0, 65535)));
+	t.true(m.buffer(readChunk.sync(getPath('curious-exif'), 0, 65535)));
+	t.false(m.buffer(readChunk.sync(getPath('baseline'), 0, 65535)));
 });
 
-test.cb('.stream() - progressive', t => {
-	fs.createReadStream(getPath('progressive')).pipe(fn.stream(progressive => {
-		t.true(progressive);
-		t.end();
-	}));
+test('.stream()', async t => {
+	t.true(await m.stream(fs.createReadStream(getPath('progressive'))));
+	t.true(await m.stream(fs.createReadStream(getPath('curious-exif'))));
+	t.false(await m.stream(fs.createReadStream(getPath('baseline'))));
 });
 
-test.cb('.stream() - curious-exif', t => {
-	fs.createReadStream(getPath('curious-exif')).pipe(fn.stream(progressive => {
-		t.true(progressive);
-		t.end();
-	}));
-});
-
-test.cb('.stream() - baseline', t => {
-	fs.createReadStream(getPath('baseline')).pipe(fn.stream(progressive => {
-		t.false(progressive);
-		t.end();
-	}));
-});
-
-test.cb('.file() - progressive', t => {
-	fn.file(getPath('progressive'), (err, progressive) => {
-		t.ifError(err);
-		t.true(progressive);
-		t.end();
-	});
-});
-
-test.cb('.file() - curious-exif', t => {
-	fn.file(getPath('curious-exif'), (err, progressive) => {
-		t.ifError(err);
-		t.true(progressive);
-		t.end();
-	});
-});
-
-test.cb('.file() - baseline', t => {
-	fn.file(getPath('baseline'), (err, progressive) => {
-		t.ifError(err);
-		t.false(progressive);
-		t.end();
-	});
+test('.file()', async t => {
+	t.true(await m.file(getPath('progressive')));
+	t.true(await m.file(getPath('curious-exif')));
+	t.false(await m.file(getPath('baseline')));
 });
 
 test('.fileSync()', t => {
-	t.true(fn.fileSync(getPath('progressive')));
-	t.true(fn.fileSync(getPath('curious-exif')));
-	t.true(!fn.fileSync(getPath('baseline')));
+	t.true(m.fileSync(getPath('progressive')));
+	t.true(m.fileSync(getPath('curious-exif')));
+	t.false(m.fileSync(getPath('baseline')));
 });
