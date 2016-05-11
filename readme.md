@@ -48,7 +48,7 @@ https.get(url, res => {
 
 ### API
 
-Prefer the file methods if you're dealing directly files as those methods are optimized to read in the least amount of bytes necessary to determine whether it's a progressive JPEG image.
+Prefer the file methods if you're dealing directly with files. Those methods are optimized to read in the least amount of bytes necessary to determine whether it's a progressive JPEG image.
 
 #### .buffer(buffer)
 
@@ -56,7 +56,7 @@ Returns whether the buffer is a progressive JPEG image.
 
 ##### buffer
 
-Type: `buffer`
+Type: `Buffer`
 
 Buffer of a JPEG image.
 
@@ -68,7 +68,7 @@ Returns a Promise for a boolean indicating whether the file stream is a progress
 
 ##### stream
 
-Type: `object`
+Type: `Object`
 
 Data stream.
 
@@ -93,39 +93,14 @@ Type: `string`
 Filepath to the image.
 
 
-## CLI
-
-<img src="screenshot.png" width="641">
-
-```
-$ npm install --global is-progressive
-```
-
-```
-$ is-progressive --help
-
-  Usage
-    $ is-progressive <file> ...
-    $ is-progressive < <file>
-
-  Example
-    $ is-progressive baseline.jpg progressive.jpg
-    ✖ baseline.jpg
-    ✔ progressive.jpg
-```
-
-##### Globbing
-
-You can use globs too, if your shell supports that.
-
-```
-$ is-progressive *.jpg
-```
-
-
 ## Build-system integration
 
 Don't use this with a build-system like gulp/grunt as you can easily make the images progressive with the [`imagemin`](https://github.com/imagemin/imagemin) *([gulp](https://github.com/sindresorhus/gulp-imagemin)/[grunt](https://github.com/gruntjs/grunt-contrib-imagemin)-task)* `progressive` option instead of just warning about it.
+
+
+## Related
+
+- [is-progressive-cli](https://github.com/sindresorhus/is-progressive-cli) - CLI for this module
 
 
 ## License

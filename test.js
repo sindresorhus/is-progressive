@@ -4,7 +4,7 @@ import test from 'ava';
 import readChunk from 'read-chunk';
 import m from './';
 
-const getPath = name => path.join(__dirname, 'fixture', `${name}.jpg`);
+const getPath = name => path.join(__dirname, `fixture/${name}.jpg`);
 
 test('.buffer()', t => {
 	t.true(m.buffer(readChunk.sync(getPath('progressive'), 0, 65535)));
