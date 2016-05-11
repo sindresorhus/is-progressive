@@ -1,37 +1,41 @@
 #!/usr/bin/env node
 'use strict';
-var path = require('path');
-var meow = require('meow');
-var logSymbols = require('log-symbols');
-var arrify = require('arrify');
-var isProgressive = require('./');
+const path = require('path');
+const meow = require('meow');
+const logSymbols = require('log-symbols');
+const arrify = require('arrify');
+const isProgressive = require('./');
 
-var cli = meow([
-	'Usage',
-	'  $ is-progressive <file> ...',
-	'  $ is-progressive < <file>',
-	'',
-	'Example',
-	'  $ is-progressive baseline.jpg progressive.jpg',
-	'  ✖ baseline.jpg',
-	'  ✔ progressive.jpg'
-]);
+const cli = meow(`
+	Usage
+	  $ is-progressive <file> ...
+	  $ is-progressive < <file>
 
-function init(input) {
-	var exitCode = 0;
+	Example
+	  $ is-progressive baseline.jpg progressive.jpg
+	  ✖ baseline.jpg
+	  ✔ progressive.jpg
+`);
 
-	arrify(input).forEach(function (x) {
-		var p = isProgressive.fileSync(x);
+const log = (p, x) => {
+	console.log(p ? logSymbols.success : logSymbols.error, path.relative(process.cwd(), x));
+};
+
+const init = input => {
+	let exitCode = 0;
+
+	arrify(input).forEach(x => {
+		const p = isProgressive.fileSync(x);
 
 		if (!p) {
 			exitCode = 1;
 		}
 
-		console.log(p ? logSymbols.success : logSymbols.error, path.relative(process.cwd(), x));
+		log(p, x);
 	});
 
 	process.exit(exitCode);
-}
+};
 
 if (process.stdin.isTTY) {
 	if (cli.input.length === 0) {
@@ -41,5 +45,7 @@ if (process.stdin.isTTY) {
 
 	init(cli.input);
 } else {
-	process.stdin.pipe(isProgressive.stream(init));
+	isProgressive.stream(process.stdin).then(p => {
+		log(p, 'stdin');
+	});
 }

@@ -11,7 +11,7 @@
   },
   "bin": "cli.js",
   "engines": {
-    "node": ">=0.10.0"
+    "node": ">=4"
   },
   "scripts": {
     "test": "xo && ava"
@@ -44,11 +44,13 @@
     "arrify": "^1.0.0",
     "log-symbols": "^1.0.1",
     "meow": "^3.6.0",
-    "read-chunk": "^1.0.0",
-    "through2": "^2.0.0"
+    "read-chunk": "^2.0.0"
   },
   "devDependencies": {
     "ava": "*",
     "xo": "*"
+  },
+  "xo": {
+    "esnext": true
   }
 }
