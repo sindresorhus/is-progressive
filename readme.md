@@ -12,7 +12,7 @@ The check is fast as it only reads a small part of the file.
 ## Install
 
 ```
-$ npm install --save is-progressive
+$ npm install is-progressive
 ```
 
 
@@ -21,10 +21,10 @@ $ npm install --save is-progressive
 ```js
 const isProgressive = require('is-progressive');
 
-isProgressive.file('baseline.jpg').then(progressive => {
-	console.log(progressive);
+(async () => {
+	console.log(await isProgressive.file('baseline.jpg'));
 	//=> false
-});
+})();
 
 isProgressive.fileSync('progressive.jpg');
 //=> true
@@ -35,13 +35,12 @@ isProgressive.fileSync('progressive.jpg');
 // without downloading the whole file
 const https = require('https');
 const isProgressive = require('is-progressive');
+
 const url = 'https://raw.githubusercontent.com/sindresorhus/is-progressive/master/fixture/progressive.jpg';
 
-https.get(url, res => {
-	isProgressive.stream(res).then(progressive => {
-		console.log(progressive);
-		//=> true
-	});
+https.get(url, async response => {
+	console.log(await isProgressive.stream(response));
+	//=> true
 });
 ```
 
@@ -52,7 +51,7 @@ Prefer the file methods if you're dealing directly with files. Those methods are
 
 #### .buffer(buffer)
 
-Returns whether the buffer is a progressive JPEG image.
+Returns whether the `buffer` is a progressive JPEG image.
 
 ##### buffer
 
@@ -68,29 +67,29 @@ Returns a Promise for a boolean indicating whether the file stream is a progress
 
 ##### stream
 
-Type: `Object`
+Type: `ReadableStrem`
 
 Data stream.
 
-#### .file(filepath)
+#### .file(filePath)
 
-Returns a Promise for a boolean indicating whether the file is a progressive JPEG image.
+Returns a Promise for a boolean indicating whether the file at the `filePath` is a progressive JPEG image.
 
-##### filepath
-
-Type: `string`
-
-Filepath to the image.
-
-#### .fileSync(filepath)
-
-Returns whether the buffer is a progressive JPEG.
-
-##### filepath
+##### filePath
 
 Type: `string`
 
-Filepath to the image.
+File path to the image.
+
+#### .fileSync(filePath)
+
+Whether the the file at the `filePath` is a progressive JPEG.
+
+##### filePath
+
+Type: `string`
+
+File path to the image.
 
 
 ## Build-system integration
