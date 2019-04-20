@@ -4,22 +4,22 @@ const readChunk = require('read-chunk');
 
 // http://en.wikipedia.org/wiki/JPEG
 // SOF2 [0xFF, 0xC2] = Start Of Frame (Progressive DCT)
-const SOF2 = 0xc2;
+const SOF2 = 0xC2;
 
-const search = buf => {
-	let prevByte;
+const search = buffer => {
+	let previousByte;
 
-	for (const currByte of buf) {
-		if (prevByte !== 0xff) {
-			prevByte = currByte;
+	for (const currentByte of buffer) {
+		if (previousByte !== 0xFF) {
+			previousByte = currentByte;
 			continue;
 		}
 
-		if (currByte === SOF2) {
+		if (currentByte === SOF2) {
 			return true;
 		}
 
-		prevByte = currByte;
+		previousByte = currentByte;
 	}
 
 	return false;
@@ -28,16 +28,16 @@ const search = buf => {
 exports.buffer = search;
 
 exports.stream = stream => new Promise((resolve, reject) => {
-	let prevLastByte = new Buffer(1);
+	let previousLastByte = Buffer.alloc(1);
 
 	const end = () => {
 		resolve(false);
 	};
 
 	stream.on('data', data => {
-		prevLastByte = new Buffer(data[data.length - 1]);
+		previousLastByte = Buffer.of(data[data.length - 1]);
 
-		if (search(Buffer.concat([prevLastByte, data]))) {
+		if (search(Buffer.concat([previousLastByte, data]))) {
 			resolve(true);
 			stream.removeListener('end', end);
 		}
@@ -47,30 +47,29 @@ exports.stream = stream => new Promise((resolve, reject) => {
 	stream.on('end', end);
 });
 
-// the metadata section has a maximum size of 65535 bytes
-exports.file = filepath => readChunk(filepath, 0, 65535).then(search);
+// The metadata section has a maximum size of 65535 bytes
+exports.file = async filePath => search(await readChunk(filePath, 0, 65535));
 
 exports.fileSync = filepath => {
-	// we read one byte at the time here as it usually appears
-	// early in the file and reading 65535 would be wasteful
-	const BUF_LENGTH = 1;
-	const buf = new Buffer(BUF_LENGTH);
+	// We read one byte at the time here as it usually appears early in the file and reading 65535 would be wasteful
+	const BUFFER_LENGTH = 1;
+	const buffer = Buffer.alloc(BUFFER_LENGTH);
 	const read = fs.openSync(filepath, 'r');
-	let bytesRead = BUF_LENGTH;
-	let currByte;
-	let prevByte;
+	let bytesRead = BUFFER_LENGTH;
+	let currentByte;
+	let previousByte;
 	let isProgressive = false;
 
-	while (bytesRead === BUF_LENGTH) {
-		bytesRead = fs.readSync(read, buf, 0, 1);
-		currByte = buf[0];
+	while (bytesRead === BUFFER_LENGTH) {
+		bytesRead = fs.readSync(read, buffer, 0, 1);
+		currentByte = buffer[0];
 
-		if (prevByte === 0xff && currByte === SOF2) {
+		if (previousByte === 0xFF && currentByte === SOF2) {
 			isProgressive = true;
 			break;
 		}
 
-		prevByte = currByte;
+		previousByte = currentByte;
 	}
 
 	fs.closeSync(read);
