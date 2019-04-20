@@ -31,8 +31,7 @@ isProgressive.fileSync('progressive.jpg');
 ```
 
 ```js
-// check if a remote JPEG image is progressive
-// without downloading the whole file
+// Check if a remote JPEG image is progressive without downloading the whole file
 const https = require('https');
 const isProgressive = require('is-progressive');
 
@@ -63,17 +62,17 @@ Must be at least `65535` bytes when the file is larger than that.
 
 #### .stream(stream)
 
-Returns a Promise for a boolean indicating whether the file stream is a progressive JPEG image.
+Returns a `Promise<boolean>` indicating whether the file stream is a progressive JPEG image.
 
 ##### stream
 
-Type: `ReadableStrem`
+Type: `stream.Readable`
 
-Data stream.
+Data stream with a JPEG image.
 
 #### .file(filePath)
 
-Returns a Promise for a boolean indicating whether the file at the `filePath` is a progressive JPEG image.
+Returns a `Promise<boolean>` indicating whether the file at the `filePath` is a progressive JPEG image.
 
 ##### filePath
 
@@ -94,7 +93,7 @@ File path to the image.
 
 ## Build-system integration
 
-Don't use this with a build-system like gulp/grunt as you can easily make the images progressive with the [`imagemin`](https://github.com/imagemin/imagemin) *([gulp](https://github.com/sindresorhus/gulp-imagemin)/[grunt](https://github.com/gruntjs/grunt-contrib-imagemin)-task)* `progressive` option instead of just warning about it.
+Don't use this with a build-system like Gulp/Grunt as you can easily make the images progressive with the [`imagemin`](https://github.com/imagemin/imagemin) *([Gulp](https://github.com/sindresorhus/gulp-imagemin)/[Grunt](https://github.com/gruntjs/grunt-contrib-imagemin)-task)* `progressive` option instead of just warning about it.
 
 
 ## Related

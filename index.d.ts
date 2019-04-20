@@ -25,15 +25,14 @@ const readFileP = promisify(readFile);
 export function buffer(buffer: Buffer): boolean;
 
 /**
-Checks if a `ReadableStream` produces a JPEG image that is [progressive](http://www.faqs.org/faqs/jpeg-faq/part1/section-11.html).
+Checks if a `stream.Readable` produces a JPEG image that is [progressive](http://www.faqs.org/faqs/jpeg-faq/part1/section-11.html).
 
-@param stream - Data stream.
+@param stream - Data stream with a JPEG image.
 @returns Whether the `stream` is a progressive JPEG image.
 
 @example
 ```
-// check if a remote JPEG image is progressive
-// without downloading the whole file
+// Check if a remote JPEG image is progressive without downloading the whole file
 import * as https from 'https';
 import isProgressive = require('is-progressive');
 

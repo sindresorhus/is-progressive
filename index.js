@@ -27,24 +27,24 @@ const search = buffer => {
 
 exports.buffer = search;
 
-exports.stream = stream => new Promise((resolve, reject) => {
+exports.stream = readableStream => new Promise((resolve, reject) => {
 	let previousLastByte = Buffer.alloc(1);
 
 	const end = () => {
 		resolve(false);
 	};
 
-	stream.on('data', data => {
+	readableStream.on('data', data => {
 		previousLastByte = Buffer.of(data[data.length - 1]);
 
 		if (search(Buffer.concat([previousLastByte, data]))) {
 			resolve(true);
-			stream.removeListener('end', end);
+			readableStream.removeListener('end', end);
 		}
 	});
 
-	stream.on('error', reject);
-	stream.on('end', end);
+	readableStream.on('error', reject);
+	readableStream.on('end', end);
 });
 
 // The metadata section has a maximum size of 65535 bytes
