@@ -1,20 +1,18 @@
-# is-progressive [![Build Status](https://travis-ci.org/sindresorhus/is-progressive.svg?branch=master)](https://travis-ci.org/sindresorhus/is-progressive)
+# is-progressive [![Build Status](https://travis-ci.com/sindresorhus/is-progressive.svg?branch=master)](https://travis-ci.com/sindresorhus/is-progressive)
 
 > Check if JPEG images are [progressive](http://www.faqs.org/faqs/jpeg-faq/part1/section-11.html)
 
 Can be useful to make sure your images are progressive, which is important for performance:
 
-> Progressive JPEGs are better because they are faster. Appearing faster is being faster, and perceived speed is more important that actual speed. - [Progressive JPEGs: a new best practice](http://calendar.perfplanet.com/2012/progressive-jpegs-a-new-best-practice/)
+> Progressive JPEGs are better because they are faster. Appearing faster is being faster, and perceived speed is more important that actual speed. - [Progressive JPEGs: a new best practice](https://calendar.perfplanet.com/2012/progressive-jpegs-a-new-best-practice/)
 
 The check is fast as it only reads a small part of the file.
-
 
 ## Install
 
 ```
 $ npm install is-progressive
 ```
-
 
 ## Usage
 
@@ -42,7 +40,6 @@ https.get(url, async response => {
 	//=> true
 });
 ```
-
 
 ### API
 
@@ -90,17 +87,10 @@ Type: `string`
 
 File path to the image.
 
-
 ## Build-system integration
 
 Don't use this with a build-system like Gulp/Grunt as you can easily make the images progressive with the [`imagemin`](https://github.com/imagemin/imagemin) *([Gulp](https://github.com/sindresorhus/gulp-imagemin)/[Grunt](https://github.com/gruntjs/grunt-contrib-imagemin)-task)* `progressive` option instead of just warning about it.
 
-
 ## Related
 
 - [is-progressive-cli](https://github.com/sindresorhus/is-progressive-cli) - CLI for this module
-
-
-## License
-
-MIT © [Sindre Sorhus](https://sindresorhus.com)

@@ -2,7 +2,7 @@
 const fs = require('fs');
 const readChunk = require('read-chunk');
 
-// http://en.wikipedia.org/wiki/JPEG
+// https://en.wikipedia.org/wiki/JPEG
 // SOF2 [0xFF, 0xC2] = Start Of Frame (Progressive DCT)
 const SOF2 = 0xC2;
 
