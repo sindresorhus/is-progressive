@@ -1,4 +1,4 @@
-# is-progressive [![Build Status](https://travis-ci.com/sindresorhus/is-progressive.svg?branch=master)](https://travis-ci.com/sindresorhus/is-progressive)
+# is-progressive
 
 > Check if JPEG images are [progressive](http://www.faqs.org/faqs/jpeg-faq/part1/section-11.html)
 
