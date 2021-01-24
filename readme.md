@@ -33,7 +33,7 @@ isProgressive.fileSync('progressive.jpg');
 const https = require('https');
 const isProgressive = require('is-progressive');
 
-const url = 'https://raw.githubusercontent.com/sindresorhus/is-progressive/master/fixture/progressive.jpg';
+const url = 'https://raw.githubusercontent.com/sindresorhus/is-progressive/main/fixture/progressive.jpg';
 
 https.get(url, async response => {
 	console.log(await isProgressive.stream(response));
