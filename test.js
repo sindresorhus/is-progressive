@@ -1,15 +1,14 @@
-import fs from 'fs';
-import path from 'path';
+import fs from 'node:fs';
 import test from 'ava';
-import readChunk from 'read-chunk';
-import isProgressive from '.';
+import {readChunkSync} from 'read-chunk';
+import isProgressive from './index.js';
 
-const getPath = name => path.join(__dirname, `fixture/${name}.jpg`);
+const getPath = name => `fixture/${name}.jpg`;
 
 test('.buffer()', t => {
-	t.true(isProgressive.buffer(readChunk.sync(getPath('progressive'), 0, 65535)));
-	t.true(isProgressive.buffer(readChunk.sync(getPath('curious-exif'), 0, 65535)));
-	t.false(isProgressive.buffer(readChunk.sync(getPath('baseline'), 0, 65535)));
+	t.true(isProgressive.buffer(readChunkSync(getPath('progressive'), {length: 65_535})));
+	t.true(isProgressive.buffer(readChunkSync(getPath('curious-exif'), {length: 65_535})));
+	t.false(isProgressive.buffer(readChunkSync(getPath('baseline'), {length: 65_535})));
 });
 
 test('.stream()', async t => {

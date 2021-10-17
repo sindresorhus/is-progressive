@@ -10,19 +10,17 @@ The check is fast as it only reads a small part of the file.
 
 ## Install
 
-```
-$ npm install is-progressive
+```sh
+npm install is-progressive
 ```
 
 ## Usage
 
 ```js
-const isProgressive = require('is-progressive');
+import isProgressive from 'is-progressive';
 
-(async () => {
-	console.log(await isProgressive.file('baseline.jpg'));
-	//=> false
-})();
+console.log(await isProgressive.file('baseline.jpg'));
+//=> false
 
 isProgressive.fileSync('progressive.jpg');
 //=> true
@@ -30,8 +28,8 @@ isProgressive.fileSync('progressive.jpg');
 
 ```js
 // Check if a remote JPEG image is progressive without downloading the whole file
-const https = require('https');
-const isProgressive = require('is-progressive');
+import https from 'https';
+import isProgressive from 'is-progressive';
 
 const url = 'https://raw.githubusercontent.com/sindresorhus/is-progressive/main/fixture/progressive.jpg';
 
@@ -53,7 +51,7 @@ Returns whether the `buffer` is a progressive JPEG image.
 
 Type: `Buffer`
 
-Buffer of a JPEG image.
+The buffer of a JPEG image.
 
 Must be at least `65535` bytes when the file is larger than that.
 
@@ -65,7 +63,7 @@ Returns a `Promise<boolean>` indicating whether the file stream is a progressive
 
 Type: `stream.Readable`
 
-Data stream with a JPEG image.
+A data stream with a JPEG image.
 
 #### .file(filePath)
 
@@ -75,7 +73,7 @@ Returns a `Promise<boolean>` indicating whether the file at the `filePath` is a 
 
 Type: `string`
 
-File path to the image.
+The file path to the image.
 
 #### .fileSync(filePath)
 
@@ -85,7 +83,7 @@ Whether the the file at the `filePath` is a progressive JPEG.
 
 Type: `string`
 
-File path to the image.
+The file path to the image.
 
 ## Build-system integration
 

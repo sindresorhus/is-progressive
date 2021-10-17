@@ -1,12 +1,12 @@
-'use strict';
-const fs = require('fs');
-const readChunk = require('read-chunk');
+import fs from 'node:fs';
+import {Buffer} from 'node:buffer';
+import {readChunk} from 'read-chunk';
 
 // https://en.wikipedia.org/wiki/JPEG
 // SOF2 [0xFF, 0xC2] = Start Of Frame (Progressive DCT)
 const SOF2 = 0xC2;
 
-const search = buffer => {
+const fromBuffer = buffer => {
 	let previousByte;
 
 	for (const currentByte of buffer) {
@@ -25,9 +25,11 @@ const search = buffer => {
 	return false;
 };
 
-exports.buffer = search;
+const isProgressive = {};
 
-exports.stream = readableStream => new Promise((resolve, reject) => {
+isProgressive.buffer = fromBuffer;
+
+isProgressive.stream = readableStream => new Promise((resolve, reject) => {
 	let previousLastByte = Buffer.alloc(1);
 
 	const end = () => {
@@ -37,7 +39,7 @@ exports.stream = readableStream => new Promise((resolve, reject) => {
 	readableStream.on('data', data => {
 		previousLastByte = Buffer.of(data[data.length - 1]);
 
-		if (search(Buffer.concat([previousLastByte, data]))) {
+		if (fromBuffer(Buffer.concat([previousLastByte, data]))) {
 			resolve(true);
 			readableStream.removeListener('end', end);
 		}
@@ -48,9 +50,9 @@ exports.stream = readableStream => new Promise((resolve, reject) => {
 });
 
 // The metadata section has a maximum size of 65535 bytes
-exports.file = async filePath => search(await readChunk(filePath, 0, 65535));
+isProgressive.file = async filePath => fromBuffer(await readChunk(filePath, {length: 65_535}));
 
-exports.fileSync = filepath => {
+isProgressive.fileSync = filepath => {
 	// We read one byte at the time here as it usually appears early in the file and reading 65535 would be wasteful
 	const BUFFER_LENGTH = 1;
 	const buffer = Buffer.alloc(BUFFER_LENGTH);
@@ -76,3 +78,5 @@ exports.fileSync = filepath => {
 
 	return isProgressive;
 };
+
+export default isProgressive;
