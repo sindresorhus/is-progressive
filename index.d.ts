@@ -63,7 +63,7 @@ declare const isProgressive: {
 	Synchronously checks if a file is a JPEG image that is [progressive](http://www.faqs.org/faqs/jpeg-faq/part1/section-11.html).
 
 	@param filePath - The file path to the image.
-	@returns Whether the the file at the `filePath` is a progressive JPEG.
+	@returns Whether the file at the `filePath` is a progressive JPEG.
 
 	@example
 	```

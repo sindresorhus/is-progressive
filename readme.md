@@ -77,7 +77,7 @@ The file path to the image.
 
 #### .fileSync(filePath)
 
-Whether the the file at the `filePath` is a progressive JPEG.
+Whether the file at the `filePath` is a progressive JPEG.
 
 ##### filePath
 
