@@ -28,7 +28,7 @@ isProgressive.fileSync('progressive.jpg');
 
 ```js
 // Check if a remote JPEG image is progressive without downloading the whole file
-import https from 'https';
+import https from 'node:https';
 import isProgressive from 'is-progressive';
 
 const url = 'https://raw.githubusercontent.com/sindresorhus/is-progressive/main/fixture/progressive.jpg';
