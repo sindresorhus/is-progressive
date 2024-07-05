@@ -49,7 +49,7 @@ Returns whether the `buffer` is a progressive JPEG image.
 
 ##### buffer
 
-Type: `Buffer`
+Type: `Uint8Array`
 
 The buffer of a JPEG image.
 
