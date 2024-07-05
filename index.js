@@ -1,48 +1,34 @@
 import fs from 'node:fs';
-import {Buffer} from 'node:buffer';
 import {readChunk} from 'read-chunk';
+import {indexOf} from 'uint8array-extras';
 
 // https://en.wikipedia.org/wiki/JPEG
 // SOF2 [0xFF, 0xC2] = Start Of Frame (Progressive DCT)
-const SOF2 = 0xC2;
+const SOF2 = new Uint8Array([0xFF, 0xC2]);
 
-const fromBuffer = buffer => {
-	let previousByte;
-
-	for (const currentByte of buffer) {
-		if (previousByte !== 0xFF) {
-			previousByte = currentByte;
-			continue;
-		}
-
-		if (currentByte === SOF2) {
-			return true;
-		}
-
-		previousByte = currentByte;
-	}
-
-	return false;
-};
+const fromBuffer = buffer => indexOf(buffer, SOF2) !== -1;
 
 const isProgressive = {};
 
 isProgressive.buffer = fromBuffer;
 
 isProgressive.stream = readableStream => new Promise((resolve, reject) => {
-	let previousLastByte = Buffer.alloc(1);
+	// The first byte is for the previous last byte if we have multiple data events.
+	const buffer = new Uint8Array(1 + readableStream.readableHighWaterMark);
 
 	const end = () => {
 		resolve(false);
 	};
 
 	readableStream.on('data', data => {
-		previousLastByte = Buffer.of(data[data.length - 1]);
+		buffer.set(data, 1);
 
-		if (fromBuffer(Buffer.concat([previousLastByte, data]))) {
+		if (fromBuffer(buffer)) {
 			resolve(true);
 			readableStream.removeListener('end', end);
 		}
+
+		buffer.set(data.at(-1));
 	});
 
 	readableStream.on('error', reject);
@@ -53,25 +39,23 @@ isProgressive.stream = readableStream => new Promise((resolve, reject) => {
 isProgressive.file = async filePath => fromBuffer(await readChunk(filePath, {length: 65_535}));
 
 isProgressive.fileSync = filepath => {
-	// We read one byte at the time here as it usually appears early in the file and reading 65535 would be wasteful
-	const BUFFER_LENGTH = 1;
-	const buffer = Buffer.alloc(BUFFER_LENGTH);
+	// We read two bytes at a time here as it usually appears early in the file and reading 65535 would be wasteful
+	const BUFFER_LENGTH = 2;
+	const buffer = new Uint8Array(1 + BUFFER_LENGTH);
 	const read = fs.openSync(filepath, 'r');
 	let bytesRead = BUFFER_LENGTH;
-	let currentByte;
-	let previousByte;
 	let isProgressive = false;
 
-	while (bytesRead === BUFFER_LENGTH) {
-		bytesRead = fs.readSync(read, buffer, 0, 1);
-		currentByte = buffer[0];
+	while (bytesRead !== 0) {
+		bytesRead = fs.readSync(read, buffer, 1, BUFFER_LENGTH);
 
-		if (previousByte === 0xFF && currentByte === SOF2) {
-			isProgressive = true;
+		isProgressive = fromBuffer(buffer);
+
+		if (isProgressive) {
 			break;
 		}
 
-		previousByte = currentByte;
+		buffer.set(buffer.at(-1), 0);
 	}
 
 	fs.closeSync(read);
