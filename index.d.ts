@@ -2,7 +2,7 @@ import type {Readable as ReadableStream} from 'node:stream';
 
 declare const isProgressive: {
 	/**
-	Checks if an `ArrayBuffer/UInt8Array` contains a JPEG image that is [progressive](http://www.faqs.org/faqs/jpeg-faq/part1/section-11.html).
+	Checks if an `Uint8Array` contains a JPEG image that is [progressive](http://www.faqs.org/faqs/jpeg-faq/part1/section-11.html).
 
 	@param buffer - The buffer of a JPEG image. Must be at least `65535` bytes when the file is larger than that.
 	@returns Whether the `buffer` is a progressive JPEG image.
