@@ -1,4 +1,5 @@
 import fs from 'node:fs';
+import {Readable} from 'node:stream';
 import test from 'ava';
 import {readChunkSync} from 'read-chunk';
 import isProgressive from './index.js';
@@ -19,6 +20,15 @@ test('.stream()', async t => {
 	t.false(await isProgressive.stream(fs.createReadStream(getPath('baseline'))));
 	t.false(await isProgressive.stream(fs.createReadStream(getPath('kitten'))));
 	t.true(await isProgressive.stream(fs.createReadStream(getPath('kitten-progressive'))));
+});
+
+// Discovered in the tests for is-progressive-cli
+test('.stream() - the whole file', async t => {
+	t.true(await isProgressive.stream(Readable.from(fs.readFileSync(getPath('progressive')))));
+	t.true(await isProgressive.stream(Readable.from(fs.readFileSync(getPath('curious-exif')))));
+	t.false(await isProgressive.stream(Readable.from(fs.readFileSync(getPath('baseline')))));
+	t.false(await isProgressive.stream(Readable.from(fs.readFileSync(getPath('kitten')))));
+	t.true(await isProgressive.stream(Readable.from(fs.readFileSync(getPath('kitten-progressive')))));
 });
 
 test('.file()', async t => {
