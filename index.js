@@ -16,24 +16,37 @@ isProgressive.buffer = fromBuffer;
 isProgressive.stream = readableStream => new Promise((resolve, reject) => {
 	// The first byte is for the previous last byte if we have multiple data events.
 	const buffer = new Uint8Array(1 + MAX_BUFFER);
+	let bytesRead = 0;
 
-	const end = () => {
+	function end() {
 		resolve(false);
-	};
+	}
 
-	readableStream.on('data', data => {
+	function cleanup(value) {
+		resolve(value);
+		readableStream.removeListener('data', onData);
+		readableStream.removeListener('end', end);
+		readableStream.removeListener('error', reject);
+	}
+
+	function onData(data) {
+		if (bytesRead >= MAX_BUFFER) {
+			return cleanup(false);
+		}
+
 		buffer.set(data.subarray(0, MAX_BUFFER), 1);
 
 		if (fromBuffer(buffer)) {
-			resolve(true);
-			readableStream.removeListener('end', end);
+			return cleanup(true);
 		}
 
+		bytesRead += data.byteLength;
 		buffer.set(data.at(-1));
-	});
+	}
 
-	readableStream.on('error', reject);
+	readableStream.on('data', onData);
 	readableStream.on('end', end);
+	readableStream.on('error', reject);
 });
 
 // The metadata section has a maximum size of 65536 bytes
