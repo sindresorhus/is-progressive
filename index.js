@@ -28,9 +28,7 @@ isProgressive.stream = readableStream => new Promise((resolve, reject) => {
 			readableStream.removeListener('end', end);
 		}
 
-		// Node v16 throws an invalid_argument error if you refer to source buffer from a set
-		const node16Workaround = buffer.slice(-1);
-		buffer.set(node16Workaround, 0);
+		buffer.set(data.at(-1));
 	});
 
 	readableStream.on('error', reject);
@@ -57,9 +55,7 @@ isProgressive.fileSync = filepath => {
 			break;
 		}
 
-		// Node v16 throws an invalid_argument error if you refer to source buffer from a set
-		const node16Workaround = buffer.slice(-1);
-		buffer.set(node16Workaround, 0);
+		buffer.set(buffer.at(-1), 0);
 	}
 
 	fs.closeSync(read);
