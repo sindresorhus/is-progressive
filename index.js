@@ -1,12 +1,12 @@
 import fs from 'node:fs';
 import {readChunk} from 'read-chunk';
-import {indexOf} from 'uint8array-extras';
+import {includes} from 'uint8array-extras';
 
 // https://en.wikipedia.org/wiki/JPEG
 // SOF2 [0xFF, 0xC2] = Start Of Frame (Progressive DCT)
 const SOF2 = new Uint8Array([0xFF, 0xC2]);
 
-const fromBuffer = buffer => indexOf(buffer, SOF2) !== -1;
+const fromBuffer = buffer => includes(buffer, SOF2);
 
 const isProgressive = {};
 
